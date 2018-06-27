@@ -1,0 +1,15 @@
+- hosts: all
+  remote_user: root
+  gather_facts: no
+  tasks:
+      - name: Install python
+        raw: "apt-get update -y && apt-get install {{ python_package }} -y"
+        when: install_python
+      - name: Install docker
+        raw: "apt-get update -y && apt-get install {{ docker_package }} -y"
+        when: install_docker
+
+- hosts: galaxy
+  remote_user: root
+  roles:
+      - role: galaxy

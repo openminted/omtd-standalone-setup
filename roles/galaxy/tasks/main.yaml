@@ -25,6 +25,7 @@
       - git
       # Galaxy needs python 2.7.
       - python
+      - python-virtualenv
       - python-dev
       - python-requests
       - virtualenv
@@ -41,16 +42,6 @@
       force: yes
       version: "{{ galaxy_version }}"
       accept_hostkey: yes
-
-- name: Install extra packages in virtualenv
-  pip: name="{{ item }}" virtualenv="{{ galaxy_directory }}/.venv"
-  with_items:
-    - watchdog
-
-- name: Install extra packages in virtualenv
-  pip: name="{{ item }}"
-  with_items:
-    - watchdog
 
 - name: Create postgres user and database
   become: yes

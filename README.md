@@ -48,3 +48,22 @@ $ ansible-playbook -i hosts site.yaml
 ```
 
 If the script completes without errors, you must have a galaxy installation on `/srv/galaxy`. Check `service galaxy status` to see if galaxy runs. You can even run it explicitely with `/srv/galaxy/run.sh`.
+
+## Make your Galaxy accessible
+Galaxy will be reachable through localhost:8080 but it is common practice to run it behind a reverse proxy. In order to do this, on the machine running galaxy e.g., for apache2:
+```
+$ sudo apt install apache2
+$ sudo a2enmod proxy proxy_http rewrite
+```
+
+and modify `/etc/apache2/000-default.conf` to contain the following lines:
+```
+<VirtualHost *:80>
+  ...
+  ServerName <host ip>
+
+  RewriteEngine on
+  RewriteRule ^(.*) http://localhost:8080$1 [P]
+  ...
+</VirtualHost>
+```

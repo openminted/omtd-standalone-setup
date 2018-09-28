@@ -28,9 +28,9 @@
       - python-virtualenv
       - python-dev
       - python-requests
-      - virtualenv
       - postgresql
       - postgresql-contrib
+      - libpq-dev
       - python-psycopg2
       - docker
 
@@ -43,14 +43,34 @@
       version: "{{ galaxy_version }}"
       accept_hostkey: yes
 
-- name: Create postgres user and database
+- name: Create database user
   become: yes
   become_user: postgres
-  shell: |
-    createuser {{ galaxy_db_user }}
-    createdb {{ galaxy_db_name }}
-    psql -c "ALTER USER {{ galaxy_db_user }} WITH ENCRYPTED PASSWORD  '{{ galaxy_db_password }}';"
+  postgresql_user:
+    name: '{{ galaxy_db_user }}'
+    password: '{{ galaxy_db_password }}'
+    encrypted: yes
+    expires: infinity
+
+- name: Create database
+  become: True
+  become_user: postgres
+  postgresql_db:
+    name: '{{ galaxy_db_name }}'
+    encoding: UTF-8
+    owner: '{{ galaxy_db_user }}'
+    state: present
+    template: template0
   tags: postgres
+
+# - name: Create postgres user and database
+#   become: yes
+#   become_user: postgres
+#   shell: |
+#     createuser {{ galaxy_db_user }}
+#     createdb {{ galaxy_db_name }}
+#     psql -c "ALTER USER {{ galaxy_db_user }} WITH ENCRYPTED PASSWORD  '{{ galaxy_db_password }}';"
+#   tags: postgres
 
 - name: Create tool_conf.xml file
   copy:
@@ -87,5 +107,8 @@
   shell: "{{galaxy_directory}}/run.sh --status | echo OK"
 
 - name: Enable Galaxy in systemd
-  shell: "systemctl enable galaxy"
+  systemd:
+    daemon_reload: yes
+    state: started
+    name: galaxy
   notify: start galaxy

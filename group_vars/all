@@ -16,3 +16,12 @@ docker_package: docker
 galaxy_db_name: galaxy
 galaxy_db_user: galaxy
 galaxy_db_password: galaxy
+
+# Apache2 setup - if False, no reverse proxy will be installed
+# If you already have an apache2 setup on the executor
+# machine, you may prefare to to this manually
+apache2_as_reverse_proxy: False
+
+# Uncommend this if you know the galaxy FQDN
+# otherwise, ansible will try to figure it out
+# galaxy_fqdn: example.com

@@ -112,3 +112,30 @@
     state: started
     name: galaxy
   notify: start galaxy
+
+- name: Install apache2
+  apt:
+    name: apache2
+    state: present
+  when: apache2_as_reverse_proxy
+
+- name: Enable apache2 modules for reverse proxy
+  apache2_module:
+    state: present
+    name: "{{ item }}"
+  with_items:
+    - proxy_http
+    - proxy
+    - rewrite
+  when: apache2_as_reverse_proxy
+
+- name: Upload reverse proxy configuration
+  template:
+    src: vhosts.conf.j2
+    dest: /etc/apache2/sites-available/vhosts.conf
+  when: apache2_as_reverse_proxy
+
+- name: Enable reverse proxy site
+  command: a2ensite vhosts
+  notify: restart apache2
+  when: apache2_as_reverse_proxy

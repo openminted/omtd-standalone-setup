@@ -39,6 +39,11 @@ editor_db_user: editor
 editor_db_password: editor
 ```
 
+For access to the editor, set the API secret
+```code=yaml,name=group_vars/all
+editor_remote_user_secret: your-secret-here
+```
+
 If you want to enable apache2, set this with caution (make sure you don't already have an apache2 on your massine, because it might mess it up)
 ```code=yaml,name=group_vars/all
 apache2_as_reverse_proxy: True

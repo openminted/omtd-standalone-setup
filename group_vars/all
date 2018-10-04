@@ -24,6 +24,7 @@ executor_port: 8080
 #####
 # Editor setup
 editor_port: 8081
+editor_remote_user_secret: editoromtdsecret
 # editor_directory: /srv/editor
 # editor_version: editor
 # editor_db_name: editor

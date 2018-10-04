@@ -1,6 +1,7 @@
 editor_directory: /srv/editor
 galaxy_prefix: /editor
 galaxy_admin: galaxy-admin@example.org
+editor_remote_user_secret: editoromtdsecret
 
 tools_share: "{{ groups.executor.tools_share }}"
 

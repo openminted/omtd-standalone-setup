@@ -12,4 +12,11 @@
 - hosts: galaxy
   remote_user: root
   roles:
-      - role: galaxy
+      - role: executor
+      # - role: nfs
+      - role: editor
+
+- hosts: all
+  remote_user: root
+  roles:
+    - { role: apache2, when: apache2_as_reverse_proxy }

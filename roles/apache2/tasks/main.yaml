@@ -1,0 +1,25 @@
+- name: Install apache2
+  apt:
+    name: apache2
+    state: present
+
+- name: Enable apache2 modules for reverse proxy
+  apache2_module:
+    state: present
+    name: "{{ item }}"
+  with_items:
+    - proxy_http
+    - proxy
+    - rewrite
+
+- name: Upload reverse proxy configuration
+  template:
+    src: vhosts.conf.j2
+    dest: /etc/apache2/sites-available/omtd-vhosts.conf
+
+- name: Remove all apache2 enabled sites
+  command: rm /etc/apache2/sites-enabled/*
+
+- name: Enable reverse proxy site
+  command: a2ensite omtd-vhosts
+  notify: restart apache2

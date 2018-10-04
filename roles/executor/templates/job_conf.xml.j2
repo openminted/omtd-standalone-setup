@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<job_conf>
+    <plugins>
+      <plugin
+        id="local" type="runner"
+        load="galaxy.jobs.runners.local:LocalJobRunner"
+        workers="{{ local_workers }}"/>
+    </plugins>
+    <handlers>
+        <handler id="main"/>
+    </handlers>
+    <destinations default="local_dest">
+        <destination id="local_dest" runner="local">
+            <param id="docker_enabled">true</param>
+            <param id="docker_sudo">false</param>
+            <!-- Do not remove containers when jobs are finished -->
+            <param id="docker_auto_remove">false</param>
+            <param id="docker_auto_rm">false</param>
+        </destination>
+    </destinations>
+    <!--
+    <tools>
+      <tool id="data_source" destination="local_dest"/>
+      <tool id="omtdImporter" destination="local_dest"/>
+    </tools>
+    -->
+</job_conf>

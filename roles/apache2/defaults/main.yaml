@@ -1,6 +1,6 @@
 # Directory to host galaxy galaxy code.
-galaxy_directory: /srv/galaxy
-galaxy_prefix: /galaxy
+galaxy_directory: /srv/executor
+galaxy_prefix: /executor
 galaxy_admin: galaxy-admin@example.org
 
 # Directory which holds object store data. This directory is mounted to an nfs
@@ -18,22 +18,14 @@ tmp_directory: tmp
 galaxy_repo: https://github.com/openminted/galaxy
 
 # Version of the repository to check out. A branch, a tag or a commit hash.
-galaxy_version: editor
+galaxy_version: dev
 
 # job runner
 local_workers: 4
 
-# Proxy
-# apache_vhosts:
-#   - servername: "{{ inventory_hostname }}"
-#     extra_parameters: |
-#         RewriteEngine on
-#         RewriteRule ^(.*) http://localhost:8080$1 [P]
+# Galaxy remote repo.
+galaxy_repo: https://github.com/openminted/galaxy
 
-# apache_mods_enabled:
-#   - rewrite.load
-#   - proxy.load
-#   - proxy_http.load
-#   - ssl.conf
+# Version of the repository to check out. A branch, a tag or a commit hash.
+galaxy_version: dev
 
-# apache_remove_default_vhost: True

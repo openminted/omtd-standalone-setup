@@ -1,0 +1,85 @@
+- name: Install required packages
+  apt:
+      name: "{{ item }}"
+      state: latest
+  with_items:
+      - git
+      - python
+      - python-virtualenv
+      - python-dev
+      - python-requests
+      - postgresql
+      - postgresql-contrib
+      - libpq-dev
+      - python-psycopg2
+      - docker
+
+- name: "Clone galaxy repo {{galaxy_repo}} repo"
+  git:
+      repo: "{{ galaxy_repo }}"
+      dest: "{{ galaxy_directory }}"
+      clone: yes
+      force: yes
+      version: "{{ executor_version }}"
+      accept_hostkey: yes
+
+- name: Create database user
+  become: yes
+  become_user: postgres
+  postgresql_user:
+    name: '{{ executor_db_user }}'
+    password: '{{ executor_db_password }}'
+    encrypted: yes
+    expires: infinity
+
+- name: Create database
+  become: True
+  become_user: postgres
+  postgresql_db:
+    name: '{{ executor_db_name }}'
+    encoding: UTF-8
+    owner: '{{ executor_db_user }}'
+    state: present
+    template: template0
+  tags: postgres
+
+- name: Create tool_conf.xml file
+  copy:
+      remote_src: True
+      src: "{{ galaxy_directory }}/config/tool_conf.xml.sample"
+      dest: "{{ galaxy_directory }}/config/tool_conf.xml"
+
+- name: Setup galaxy.ini
+  template:
+    src: galaxy.ini.j2
+    dest: "{{ galaxy_directory }}/config/galaxy.ini"
+    force: yes
+
+- name: Setup job_conf
+  template:
+    src: job_conf.xml.j2
+    dest: "{{ galaxy_directory }}/config/job_conf.xml"
+    force: yes
+
+- name: Setup systemd
+  template:
+    src: executor.service.j2
+    dest: "/lib/systemd/system/executor.service"
+    force: yes
+
+- name: Login to docker registry
+  docker_login:
+    registry: "{{ registry_url }}"
+    username: "{{ registry_username }}"
+    password: "{{ registry_password }}"
+  when: registry_url is defined
+
+- name: Install Galaxy
+  shell: "{{galaxy_directory}}/run.sh --status | echo OK"
+
+- name: Enable Executor in systemd
+  systemd:
+    daemon_reload: yes
+    state: started
+    name: executor
+  notify: start executor

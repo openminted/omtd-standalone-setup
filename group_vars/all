@@ -12,16 +12,27 @@ docker_package: docker
 # registry_username: omtduser
 # registry_password: omtdpass
 
-# Database setup
-galaxy_db_name: galaxy
-galaxy_db_user: galaxy
-galaxy_db_password: galaxy
+#####
+# Executor setup
+executor_port: 8080
+# executor_version: dev
+# executor_db_name: executor
+# executor_db_user: executor
+# executor_db_password: executor
 
+#####
+# Editor setup
+editor_port: 8081
+# editor_version: editor
+# editor_db_name: editor
+# editor_db_user: editor
+# editor_db_password: editor
+
+#####
 # Apache2 setup - if False, no reverse proxy will be installed
 # If you already have an apache2 setup on the executor
 # machine, you may prefare to to this manually
 apache2_as_reverse_proxy: False
 
-# Uncommend this if you know the galaxy FQDN
-# otherwise, ansible will try to figure it out
-# galaxy_fqdn: example.com
+# Set the fqdn of the host, if any. Ansible will try to figure it out otherwise
+# host_fqdn: example.com

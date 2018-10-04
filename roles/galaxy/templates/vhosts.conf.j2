@@ -1,6 +1,0 @@
-<VirtualHost *:80>
-  ServerName {{ galaxy_fqdn if galaxy_fqdn is defined else hostvars[groups['galaxy'][0]].ansible_fqdn }}
-
-  RewriteEngine on
-  RewriteRule ^(.*) http://localhost:8080$1 [P]
-</VirtualHost>

@@ -1,0 +1,11 @@
+- name: restart editor
+  service:
+      name: editor
+      enabled: yes
+      state: restarted
+
+- name: start editor
+  service:
+    name: editor
+    enabled: yes
+    state: started

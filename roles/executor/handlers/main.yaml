@@ -1,0 +1,11 @@
+- name: restart executor
+  service:
+      name: executor
+      enabled: yes
+      state: restarted
+
+- name: start executor
+  service:
+    name: executor
+    enabled: yes
+    state: started

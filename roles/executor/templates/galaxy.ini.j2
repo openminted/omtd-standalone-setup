@@ -30,6 +30,7 @@ use = egg:Paste#http
 
 # The port on which to listen.
 #port = 8080
+port = {{ executor_port }}
 
 # The address on which to listen.  By default, only listen to localhost (Galaxy
 # will not be accessible over the network).  Use '0.0.0.0' to listen on all
@@ -61,7 +62,7 @@ use = egg:Paste#gzip
 # Define the proxy-prefix filter.
 [filter:proxy-prefix]
 use = egg:PasteDeploy#prefix
-prefix = /galaxy
+prefix = {{ galaxy_prefix }}
 
 # ---- Galaxy ---------------------------------------------------------------
 
@@ -96,7 +97,7 @@ filter-with = proxy-prefix
 # may use a SQLAlchemy connection string to specify an external database
 # instead.  This string takes many options which are explained in detail in the
 # config file documentation.
-database_connection=postgresql://{{ galaxy_db_user }}:{{ galaxy_db_password }}@localhost/{{ galaxy_db_name }}
+database_connection=postgresql://{{ executor_db_user }}:{{ executor_db_password }}@localhost/{{ executor_db_name }}
 
 # If the server logs errors about not having enough database pool connections,
 # you will want to increase these values, or consider running more Galaxy
@@ -1007,8 +1008,8 @@ use_interactive = False
 # Apache).  The upstream proxy should set a REMOTE_USER header in the request.
 # Enabling remote user disables regular logins.  For more information, see:
 #   https://galaxyproject.org/admin/config/apache-proxy
-#use_remote_user = False
-use_remote_user = True
+use_remote_user = False
+#use_remote_user = True
 
 # If use_remote_user is enabled and your external authentication
 # method just returns bare usernames, set a default mail domain to be appended

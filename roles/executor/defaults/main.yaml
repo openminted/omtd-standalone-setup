@@ -1,11 +1,14 @@
 # Directory to host galaxy galaxy code.
-galaxy_directory: /srv/executor
+executor_directory: /srv/executor
 galaxy_prefix: /executor
 galaxy_admin: galaxy-admin@example.org
 
+data_share: '{{executor_directory}}/database'
+tools_share: '{{executor_directory}}/tools'
+
 # Directory which holds object store data. This directory is mounted to an nfs
 # server.
-object_store_directory: "{{ galaxy_directory }}/database"
+object_store_directory: "{{ executor_directory }}/database"
 
 # Directory which holds datasets of workflows. It's parent is
 # `object_store_directory`.
@@ -22,12 +25,6 @@ executor_version: dev
 
 # job runner
 local_workers: 4
-
-# Galaxy remote repo.
-galaxy_repo: https://github.com/openminted/galaxy
-
-# Version of the repository to check out. A branch, a tag or a commit hash.
-galaxy_version: dev
 
 # Postgres
 executor_db_name: executor

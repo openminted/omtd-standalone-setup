@@ -1,10 +1,12 @@
-galaxy_directory: /srv/editor
+editor_directory: /srv/editor
 galaxy_prefix: /editor
 galaxy_admin: galaxy-admin@example.org
 
+tools_share: "{{ groups.executor.tools_share }}"
+
 # Directory which holds object store data. This directory is mounted to an nfs
 # server.
-object_store_directory: "{{ galaxy_directory }}/database"
+object_store_directory: "{{ editor_directory }}/database"
 
 # Directory which holds datasets of workflows. It's parent is
 # `object_store_directory`.

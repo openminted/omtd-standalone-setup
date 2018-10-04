@@ -17,7 +17,7 @@
 - name: "Clone galaxy repo {{galaxy_repo}} repo"
   git:
       repo: "{{ galaxy_repo }}"
-      dest: "{{ galaxy_directory }}"
+      dest: "{{ executor_directory }}"
       clone: yes
       force: yes
       version: "{{ executor_version }}"
@@ -46,19 +46,19 @@
 - name: Create tool_conf.xml file
   copy:
       remote_src: True
-      src: "{{ galaxy_directory }}/config/tool_conf.xml.sample"
-      dest: "{{ galaxy_directory }}/config/tool_conf.xml"
+      src: "{{ executor_directory }}/config/tool_conf.xml.sample"
+      dest: "{{ executor_directory }}/config/tool_conf.xml"
 
 - name: Setup galaxy.ini
   template:
     src: galaxy.ini.j2
-    dest: "{{ galaxy_directory }}/config/galaxy.ini"
+    dest: "{{ executor_directory }}/config/galaxy.ini"
     force: yes
 
 - name: Setup job_conf
   template:
     src: job_conf.xml.j2
-    dest: "{{ galaxy_directory }}/config/job_conf.xml"
+    dest: "{{ executor_directory }}/config/job_conf.xml"
     force: yes
 
 - name: Setup systemd
@@ -75,7 +75,7 @@
   when: registry_url is defined
 
 - name: Install Galaxy
-  shell: "{{galaxy_directory}}/run.sh --status | echo OK"
+  shell: "{{executor_directory}}/run.sh --status | echo OK"
 
 - name: Enable Executor in systemd
   systemd:

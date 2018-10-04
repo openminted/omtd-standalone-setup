@@ -18,7 +18,12 @@
     dest: /etc/apache2/sites-available/omtd-vhosts.conf
 
 - name: Remove all apache2 enabled sites
-  command: rm /etc/apache2/sites-enabled/*
+  file:
+    path: "/etc/apache2/sites-enabled/"
+    state: "{{ item }}"
+  with_items:
+    - absent
+    - directory
 
 - name: Enable reverse proxy site
   command: a2ensite omtd-vhosts

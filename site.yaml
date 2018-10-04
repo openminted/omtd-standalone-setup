@@ -13,7 +13,7 @@
   remote_user: root
   roles:
       - role: executor
-      # - role: nfs
+      - role: nfs
       - role: editor
 
 - hosts: all

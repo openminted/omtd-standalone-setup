@@ -15,6 +15,7 @@ docker_package: docker
 #####
 # Executor setup
 executor_port: 8080
+# executor_directory: /srv/executor
 # executor_version: dev
 # executor_db_name: executor
 # executor_db_user: executor
@@ -23,6 +24,7 @@ executor_port: 8080
 #####
 # Editor setup
 editor_port: 8081
+# editor_directory: /srv/editor
 # editor_version: editor
 # editor_db_name: editor
 # editor_db_user: editor
@@ -36,3 +38,8 @@ apache2_as_reverse_proxy: False
 
 # Set the fqdn of the host, if any. Ansible will try to figure it out otherwise
 # host_fqdn: example.com
+
+#####
+# NFS
+# data_share: /srv/executor/database
+# tools_share: /srv/executor/tools

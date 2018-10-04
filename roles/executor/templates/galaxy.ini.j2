@@ -145,10 +145,10 @@ database_connection=postgresql://{{ executor_db_user }}:{{ executor_db_password 
 # -- Files and directories
 
 # Dataset files are stored in this directory.
-file_path = {{ galaxy_directory }}/database/files
+file_path = {{ executor_directory }}/database/files
 
 # Temporary files are stored in this directory.
-new_file_path = {{ galaxy_directory }}/database/tmp
+new_file_path = {{ executor_directory }}/database/tmp
 
 # Tool config files, defines what tools are available in Galaxy.
 # Tools can be locally developed or installed from Galaxy tool sheds.
@@ -394,7 +394,7 @@ enable_tool_shed_check = False
 # Each job is given a unique empty directory as its current working directory.
 # This option defines in what parent directory those directories will be
 # created.
-job_working_directory = {{ galaxy_directory }}/database/jobs_directory
+job_working_directory = {{ executor_directory }}/database/jobs_directory
 
 # If using a cluster, Galaxy will write job scripts and stdout/stderr to this
 # directory.

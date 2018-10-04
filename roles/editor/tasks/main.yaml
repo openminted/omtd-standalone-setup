@@ -17,7 +17,7 @@
 - name: "Clone galaxy repo {{galaxy_repo}} repo"
   git:
       repo: "{{ galaxy_repo }}"
-      dest: "{{ galaxy_directory }}"
+      dest: "{{ editor_directory }}"
       clone: yes
       force: yes
       version: "{{ editor_version }}"
@@ -46,20 +46,32 @@
 - name: Create tool_conf.xml file
   copy:
       remote_src: True
-      src: "{{ galaxy_directory }}/config/tool_conf.xml.sample"
-      dest: "{{ galaxy_directory }}/config/tool_conf.xml"
+      src: "{{ editor_directory }}/config/tool_conf.xml.sample"
+      dest: "{{ editor_directory }}/config/tool_conf.xml"
 
 - name: Setup galaxy.ini
   template:
     src: galaxy.ini.j2
-    dest: "{{ galaxy_directory }}/config/galaxy.ini"
+    dest: "{{ editor_directory }}/config/galaxy.ini"
     force: yes
 
 - name: Setup job_conf
   template:
     src: job_conf.xml.j2
-    dest: "{{ galaxy_directory }}/config/job_conf.xml"
+    dest: "{{ editor_directory }}/config/job_conf.xml"
     force: yes
+
+- name: Remove Editor tools directory
+  file:
+    path: "{{ editor_directory }}/tools"
+    state: absent
+    force: yes
+
+- name: Connect Editor tools to Executor tools
+  file:
+    src: "{{ executor_directory }}/tools"
+    dest: "{{ editor_directory }}/tools"
+    state: link
 
 - name: Setup systemd
   template:
@@ -75,7 +87,7 @@
   when: registry_url is defined
 
 - name: Install Galaxy
-  shell: "{{galaxy_directory}}/run.sh --status | echo OK"
+  shell: "{{editor_directory}}/run.sh --status | echo OK"
 
 - name: Enable editor in systemd
   systemd:

@@ -1,2 +1,8 @@
 [galaxy]
 127.0.0.1
+
+[data_nfs_clients]
+# IPs of hosts to access data directory of Executor
+
+[tools_nfs_clients]
+# IPs of hosts to access rools directory of Executor/editor

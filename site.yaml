@@ -1,4 +1,4 @@
-- hosts: all
+- hosts: galaxy
   remote_user: root
   gather_facts: no
   tasks:
@@ -16,7 +16,7 @@
       - role: nfs
       - role: editor
 
-- hosts: all
+- hosts: galaxy
   remote_user: root
   roles:
     - { role: apache2, when: apache2_as_reverse_proxy }

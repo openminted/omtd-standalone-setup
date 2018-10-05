@@ -1,2 +1,8 @@
-{{ data_share }} {{ groups.galaxy[0] }}({{ export_options }})
-{{ tools_share }} {{ groups.galaxy[0] }}({{ export_options }})
+{% for host in groups.data_nfs_clients %}
+{{ data_share }} {{ host }}({{ export_options }})
+{% endfor %}
+
+{% for host in groups.tools_nfs_clients %}
+{{ tools_share }} {{ host }}({{ export_options }})
+{% endfor %}
+

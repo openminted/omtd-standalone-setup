@@ -20,6 +20,10 @@ If you target the local host, there is no need to edit the `hosts` file. If you 
 
 Please edit the `group_vars/all` file, to set up secure credentials and edit various options of your system. If you don't edit this file, the system will be deployed with default options.
 
+## Configure NFS exports
+
+NFS is used to give access to the `data` and `tools` directories of Galaxy Executor (Executor and Editor share the `tools` directory). You must provide the IPs of the hosts which will have access to these directories, by adding them to your `hosts` file, under the groups `data_nfs_clients` and `tools_nfs_clients` respectively.
+
 ### Changes in `group_vars/all`
 
 By default, the system will pull docker images from docker hub. If you have a private docker registry, you must uncommend the following lines. The username and password are http passwords and are optional.
@@ -48,6 +52,9 @@ If you want to enable apache2, set this with caution (make sure you don't alread
 ```code=yaml,name=group_vars/all
 apache2_as_reverse_proxy: True
 ```
+
+## Change ports for Galaxy deployments
+If the ports 8080 and/or 8081 are in use, you can change them in `group_vars/all` by setting the variables `executor_port` and `editor_port` to different values.
 
 ## Run the script
 It is assumed that the scripts run with superuser priviledges. If this is not the case, set add a line in `group_vars/all`:
@@ -85,6 +92,3 @@ and modify `/etc/apache2/000-default.conf` to contain the following lines:
   ...
 </VirtualHost>
 ```
-
-## Change ports for Galaxy deployments
-If the ports 8080 and/or 8081 are in use, you can change them in `group_vars/all` by setting the variables `executor_port` and `editor_port` to different values.

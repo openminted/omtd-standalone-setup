@@ -56,6 +56,13 @@ apache2_as_reverse_proxy: True
 ## Change ports for Galaxy deployments
 If the ports 8080 and/or 8081 are in use, you can change them in `group_vars/all` by setting the variables `executor_port` and `editor_port` to different values.
 
+## Make your Galaxy accessible
+Galaxy will be reachable through localhost:8080 (executor) and localhost:8081 (editor) but it is common practice to run it behind a reverse proxy. You can optionally instruct ansible to install apache2 as a reverse proxy for your executor and editor, by setting a flag in `group_vars/all`:
+
+```code=yaml,name=group_vars/all
+apache2_as_reverse_proxy: True
+```
+
 ## Run the script
 It is assumed that the scripts run with superuser priviledges. If this is not the case, set add a line in `group_vars/all`:
 
@@ -71,24 +78,3 @@ $ ansible-playbook -i hosts site.yaml
 ```
 
 If the script completes without errors, you must have a galaxy installation on `/srv/galaxy`. Check `service galaxy status` to see if galaxy runs. You can even run it explicitely with `/srv/galaxy/run.sh`.
-
-## Make your Galaxy accessible
-Galaxy will be reachable through localhost:8080 (executor) and localhost:8081 (editor) but it is common practice to run it behind a reverse proxy. In order to do this, on the machine running the galaxy deployments e.g., for apache2:
-```
-$ sudo apt install apache2
-$ sudo a2enmod proxy proxy_http rewrite
-```
-
-and modify `/etc/apache2/000-default.conf` to contain the following lines:
-```
-<VirtualHost *:80>
-  ...
-  ServerName <host ip>
-
-  ProxyPass /executor http://localhost:8080
-  ProxyPass /executor http://localhost:8080
-  ProxyPass /editor http://localhost:8081
-  ProxyPass /editor http://localhost:80801
-  ...
-</VirtualHost>
-```

@@ -20,6 +20,7 @@ executor_port: 8080
 # executor_db_name: executor
 # executor_db_user: executor
 # executor_db_password: executor
+# docker_pkg: docker
 
 #####
 # Editor setup

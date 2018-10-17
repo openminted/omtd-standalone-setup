@@ -12,7 +12,7 @@
       - postgresql-contrib
       - libpq-dev
       - python-psycopg2
-      - docker
+      - "{{ docker_pkg }}"
 
 - name: "Clone galaxy repo {{galaxy_repo}} repo"
   git:

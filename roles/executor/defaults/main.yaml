@@ -32,4 +32,4 @@ executor_db_user: executor
 executor_db_password: executor
 
 # Packages
-docker_pkg: docker
+docker_pkg: docker.io
